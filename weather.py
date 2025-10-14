@@ -145,13 +145,25 @@ def generate_summary(weather_data):
         A string containing the summary information.
     """
     
-    min_value, min_position = find_min(weather_data)
-    print(f"min_value: {min_value}")
-    print(f"min_position: {min_position}")
+    # find min 
+    # iterate over each list in list, then 1st loop is list.
+    min_list = []
+    for list in weather_data: 
+        min_list.append(list[1])
+    print(min_list)
+    min_value, min_position = find_min(min_list)
+    print(min_value)
+    print(min_position)
 
-    return (f"5 Day Overview \nThe lowest temperature will be {format_temperature(min_value)}")
+    # extract timestamp from min position list. 
+    min_timestamp = weather_data[min_position][0] # -> lists[b][a] gets the element in index a from the list in index b in lists
+    print(min_timestamp)
+
+    (f" ")
+
+    # return (f"5 Day Overview \nThe lowest temperature will be {format_temperature(min_value)}")
 example = [
-            ["2021-07-02T07:00:00+08:00", 49, 67],
+            ["2021-07-02T07:00:00+08:00", 100, 67],
             ["2021-07-03T07:00:00+08:00", 57, 68],
             ["2021-07-04T07:00:00+08:00", 56, 62],
             ["2021-07-05T07:00:00+08:00", 55, 61],
