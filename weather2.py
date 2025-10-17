@@ -306,3 +306,184 @@ def generate_daily_summary(weather_data):
 #---- Saturday 20 June 2020 ----
 #  Minimum Temperature: 10.6°C
 #  Maximum Temperature: 19.4°C
+
+# Redoing entire test again....
+#  
+import csv
+from datetime import datetime
+
+DEGREE_SYMBOL = u"\N{DEGREE SIGN}C"
+
+x = "hello_world"
+print(x)
+
+def format_temperature(temp):
+    # to return the temp with the celcius sign after it, just make a one line f string.
+    return f"{temp}{DEGREE_SYMBOL}"
+print(format_temperature(30)) # 30°C
+
+def convert_date(iso_string):
+    """Converts and ISO formatted date into a human-readable format.
+
+    Args:
+        iso_string: An ISO date string.
+    Returns:
+        A date formatted like: Weekday Date Month Year e.g. Tuesday 06 July 2021
+    """
+    result = datetime.fromisoformat(iso_string)
+    date = result.strftime("%A" "%d" "%B" "%Y")
+    return(date) # return the final answer
+print(convert_date("2021-07-06T00:00:00")) # Friday, 17 October 2025 1:38:03 PM
+
+def convert_f_to_c(temp_in_fahrenheit):
+    """Converts a temperature from Fahrenheit to Celcius.
+
+    Args:
+        temp_in_fahrenheit: float representing a temperature.
+    Returns:
+        A float representing a temperature in degrees Celcius, rounded to 1 decimal place.
+    """
+    temp = (temp_in_fahrenheit - 32) * 5/9
+    temp = float(temp)
+    rounded_number = round(temp)
+    return rounded_number
+print(convert_f_to_c(65))
+
+def calculate_mean(weather_data):
+    """Calculates the mean value from a list of numbers.
+
+    Args:
+        weather_data: a list of numbers.
+    Returns:
+        A float representing the mean value.
+    """
+    
+    temp = len(weather_data)
+    get_sum = sum(weather_data)
+    mean = get_sum/ temp
+    return mean 
+
+weather_data = [20,30,15,29,30]
+print(calculate_mean(weather_data))
+
+
+def load_data_from_csv(csv_file):
+    """Reads a csv file and stores the data in a list.
+
+    Args:
+        csv_file: a string representing the file path to a csv file.
+    Returns:
+        A list of lists, where each sublist is a (non-empty) line in the csv file.
+    """
+    data = []
+    with open(csv_file, "r", newline = "") as csvfile:
+        csv_reader = csv.reader(csvfile)
+        next(csv_reader)
+        for row in csv_reader:
+            if not row:
+                continue
+            date = row[0]
+            min_temp = int(row[1])
+            max_temp = int(row[2])
+            data.append([date,min_temp,max_temp])
+    return data
+
+# you have to convert two numbers to integers here so you do it here instead of later on. 
+# Therefore  data.append(row) doesn't work because it doesn't convert. 
+# it also asks you to return a list therefore all 3 are in brackets in ().
+# data.append([date,min_temp,max_temp]) means making and transplanting a list into a bigger list of lists. 
+
+def find_min(weather_data):
+    """Calculates the minimum value in a list of numbers.
+
+    Args:
+        weather_data: A list of numbers.
+    Returns:
+        The minimum value and it's position in the list. (In case of multiple matches, return the index of the *last* example in the list.)
+    """
+    if not weather_data:
+        return()
+    # if there is no data in list, return an empty tuple (not list)
+    min_value = float(weather_data[0])
+    min_position = 0
+
+    # Assume that the lowest number is 8, in position 0. Therefore:
+    # min_value = 8
+    # min_position = 0.
+
+
+    for i in range(1, len(weather_data)):
+    # for every position number i in my list of weather data
+    # We start from position 1 because 0 is already covered. 
+    # We need the length of the weather_data list to get a number for the number of items. We have 7 items. Therefore len(weather_data) = 7
+    # So the range is between position 1 (3) and the number before the end of the list. Range(1, 7) =  1,2,3,4,5,6 as it stops before 7.  
+
+        value = float(weather_data[i]) # get the value at the current index and convert it to a float so 3 becomes 3.0
+
+        if value <= min_value:
+            min_value = value
+            min_position = i
+
+    # Now it loops through the values. If the first item (value) is less than or equal to the first item we find, then the min_value is the NEW value. 
+    # Once it locks in the min_value, the min_posistion is recorded at the same time.
+
+    # if the index in the list is greater than last index, index = bigger index. 
+    return min_value, min_position
+
+    # min_value = min(weather_data)
+    # min_position = weather_data.index(min_value) - dont use because index stops at the first match. 
+
+weather_data = [8, 3, 5, 1, 9, 12, 1]
+print(find_min(weather_data)) # (1.0, 6)
+
+
+# ALTERNATIVE CALCULATION!!!!!!!!!!
+def find_min(weather_data):
+    """Calculates the minimum value in a list of numbers.
+
+    Args:
+        weather_data: A list of numbers.
+    Returns:
+        The minimum value and its position in the list.
+        (In case of multiple matches, return the index of the *last* example.)
+    """
+    if not weather_data:
+        return ()
+
+    # Start by assuming the first value is the minimum.
+    min_value = float(weather_data[0])
+    min_position = 0
+
+    # Enumerate gives you both index (i) and value automatically.
+    for i, value in enumerate(weather_data):
+        value = float(value)
+        if value <= min_value: # less than or equal to
+            min_value = value
+            min_position = i
+
+    return min_value, min_position
+
+def find_max(weather_data):
+    """Calculates the maximum value in a list of numbers.
+
+    Args:
+        weather_data: A list of numbers.
+    Returns:
+        The maximum value and its position in the list.
+        (In case of multiple matches, return the index of the *last* example in the list.)
+    """
+    if not weather_data:
+        return () or None
+
+    # Start by assuming the first value is the maximum.
+    max_value = float(weather_data[0])
+    max_position = 0
+
+    # Enumerate gives you both index (i) and value automatically.
+    for i, value in enumerate(weather_data):
+        value = float(value)
+        if value >= max_value: # greater than or equal to
+            max_value = value
+            max_position = i
+
+    return max_value, max_position
