@@ -365,8 +365,8 @@ def calculate_mean(weather_data):
     return result
 
 
-    # temp = len(weather_data) - returns error because it needed to be converted
-    # get_sum = sum(weather_data)
+    # temp = len(weather_data) 
+    # get_sum = sum(float(x) for x in weather_data) - This line converts EACH ITEM to a float before adding. AKA "Convert each x before summing"
     # mean = get_sum/ temp
     # return mean 
 
